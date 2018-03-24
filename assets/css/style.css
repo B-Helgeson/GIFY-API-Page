@@ -1,0 +1,16 @@
+body {
+    background: url(../images/stars_bg.jpg);
+    padding: 30px;
+}
+
+.addChar {
+    color: white;
+}
+
+.btn {
+    margin: 5px;
+}
+
+.swGif {
+    padding: 10px;
+}
