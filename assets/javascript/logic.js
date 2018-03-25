@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 // Populate the page "starwars buttons" (Array) with some starting predefined values
 
-var starwarsButtons = [
+ var starwarsButtons = [
                         "darth vader",
                         "yoda",
                         "boba fett",
@@ -15,12 +15,13 @@ console.log(starwarsButtons)
 
 //paint the initial array onto the page, into the "starwarsButtons" div
 function refreshButtons(){
-for (var i = 0; i < starwarsButtons.length; i++) {
-    var starwarsBtn = $("<button class = 'btn btn-info'>");
-    $(starwarsBtn).attr("data-character", starwarsButtons[i]);
-    $(starwarsBtn).text(starwarsButtons[i]);
-    $(starwarsBtn).appendTo("#starwarsButtons");
-  };}
+    $("#starwarsButtons").empty(); //clears the element, necessary for re-use of this function later. 
+    for (var i = 0; i < starwarsButtons.length; i++) {
+        var starwarsBtn = $("<button class = 'btn btn-info'>");
+        $(starwarsBtn).attr("data-character", starwarsButtons[i]);
+        $(starwarsBtn).text(starwarsButtons[i]);
+        $(starwarsBtn).appendTo("#starwarsButtons");
+      };}
 
   //create a function which can be called to update the page, after a user enters a new value in the form
   refreshButtons();
@@ -30,21 +31,21 @@ for (var i = 0; i < starwarsButtons.length; i++) {
 
 //enable user input "submit" to populate a new starwars button, trim and append to "starwars buttons"
 
-$("#addCharacter").on("click", function() {
+$("#addCharacter").on("click", function(event) {
+    event.preventDefault();
     var newCharacter = $("#character-input").val().trim();
-    starwarsButtons.push(newCharacter);
-    console.log(starwarsButtons)
-    alert("you pushed the button!")
-    refreshButtons()})
-            //above function doesn't seem to be pushing to the array and updating the list... not sure why. 
-            //the alert at the end of the function works, there is no error console-logged.
-
+    console.log("new character added: " + newCharacter) // console logs the new character name
+    starwarsButtons.push(newCharacter); //pushes the new character to the array
+    refreshButtons();
+    console.log(starwarsButtons); //console logs the new array
+    alert("for some reason, adding a character breaks the GIF logic. Please refresh the page to view GIFs") //remove this line once issues is fixed. 
+    })
 
 //-------------------------------------------------------------------------------------------------
 //When a button is clicked "this", search in GIFY, return top 10 results for button
 
 $("button").on("click", function() {
-    // Clear out existing DIV
+    // Clear out existing DIV to remove previous set of character if applicable. 
     $("#characters").empty();
 
     var char = $(this).attr("data-character");
@@ -69,6 +70,9 @@ $("button").on("click", function() {
         }
       });
   });
+
+              //The GIF query functionality only works before a new character is added... I'm not sure why
+              //This works perfectly before new characters are added, but no longer works after. 
 
 
 //-----------------------------------------------------------------------------------------------------------------
